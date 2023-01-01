@@ -1,0 +1,36 @@
+class Solution {
+    public boolean wordPattern(String pattern, String s) {
+        String str[]=s.split(" ");
+
+        /* No. of words in the string should be equal to the 
+        no. of characters in the pattern */
+
+        if(str.length!=pattern.length()) return false;
+        Map<Character,String> map=new HashMap<>();
+        for(int i=0;i<pattern.length();i++)
+        {
+            if(map.containsKey(pattern.charAt(i))){
+
+                /* For a particular character in the pattern, the
+                corresponding word in the string should be same */
+
+                if(map.get(pattern.charAt(i)).equals(str[i])){
+                    map.put(pattern.charAt(i),str[i]);
+                }
+                else{
+                    return false;
+                }
+            }
+            else{
+
+                /* For  particular word in the string the corresponding character
+                should be same */ 
+
+                if(map.containsValue(str[i])) return false;
+                else
+                map.put(pattern.charAt(i),str[i]);
+            }
+        }
+        return true;
+    }
+}
