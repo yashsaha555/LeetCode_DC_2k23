@@ -1,0 +1,40 @@
+class Solution {
+
+    public boolean detectCapitalUse(String word) {
+        boolean isUpper=false,isLower=false;
+        int lower=0,upper=0;
+
+        /* If there is a single letter in the word then answer is always true */
+
+        if(word.length()==1)
+        return true;
+
+        /* If first letter is in lowercase then rest of the letters should also be in lowercase */
+
+        if(Character.isLowerCase(word.charAt(0))){
+            for(int i=1;i<word.length();i++){
+                if(Character.isUpperCase(word.charAt(i))){
+                    return false;
+                }
+            }
+        }
+        else{
+
+            /* If the first letter is in uppercase then the rest of the letters should be in either lowercase
+            or uppercase */
+
+            for(int i=1;i<word.length();i++){
+                if(Character.isLowerCase(word.charAt(i))){
+                    isLower=true;
+                    lower++;
+                }
+                else{
+                    isUpper=true;
+                    upper++;
+                }
+            }
+            if((isLower && lower!=word.length()-1) || (isUpper && upper!=word.length()-1)) return false;
+        }
+        return true;
+    }
+}
