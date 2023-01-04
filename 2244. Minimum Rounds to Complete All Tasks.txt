@@ -1,0 +1,47 @@
+class Solution {
+    public int minimumRounds(int[] tasks) {
+
+        /* If there is only a single element in the array then it is not possible to complete any task */
+
+        if(tasks.length==1) return -1;
+        int ans=0;
+        Map<Integer,Integer> hm=new HashMap<>();
+
+        /* Iterate through each element in the array and store it's frequency in the map */
+
+        for(int i:tasks){
+            hm.put(i,hm.getOrDefault(i,0)+1);
+        }
+
+        /* If the frequecy of any element is 1 then it's not possible to complete any task */
+
+        for(int key:hm.keySet()){
+            if(hm.get(key)==1){
+                return -1;
+            } 
+            else{
+
+            /* Recursively call the minRounds function to calculate the minimum no. of rounds required with 
+            given conditions */
+                
+                ans+=minRounds(hm.get(key));
+            }
+        }
+        return ans;
+    }
+      public static int minRounds(int n) {
+
+        /* Base condition: If the frequecy is either 2 or 3 then then minimum rounds required is 1 */
+
+        if (n == 2 || n == 3) {
+            return 1;
+        }
+        if (n % 3 == 0) {
+            return 1+minRounds(n-3);
+        }
+        if (n % 2 == 0) {
+            return 1+minRounds(n-2);
+        }
+        return 1 + Math.min(minRounds(n-3),minRounds(n-2));
+    }
+}
