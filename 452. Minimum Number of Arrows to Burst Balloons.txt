@@ -1,0 +1,24 @@
+class Solution {
+    public int findMinArrowShots(int[][] points) {
+        /* If there is only one balloon, then it will require a single shot */
+
+        if(points.length==1) return 1;
+
+        /* Sort the array in ascending order based on the ending value of x (Xend) */
+
+        Arrays.sort(points,(a,b)->a[1]<b[1]?-1:1);
+        int minShots=1,idx=0;
+        for(int i=1;i<points.length;i++){
+
+            /* For the subsequent elements in the array if Xstart is greater than the
+            Xend of the current element or Xend is less than the Xstart of the current
+            element then new shot is to be fired */
+
+            if(points[i][0]>points[idx][1] || points[i][1]<points[idx][0]){
+                minShots++;
+                idx=i;
+            }
+        }
+        return minShots;
+    }
+}
