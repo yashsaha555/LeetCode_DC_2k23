@@ -1,0 +1,22 @@
+class Solution {
+    public int maxIceCream(int[] costs, int coins) {
+
+        /* Sort the given array in ascending order */
+
+        Arrays.sort(costs);
+        int count=0;
+
+        /* Find out the maximum number of ice cream bars using Greedy approach */
+
+        for(int i=0;i<costs.length;i++){
+            if(costs[i]<=coins){
+                count++;
+                coins-=costs[i];
+            }
+            else{
+                return count;
+            }
+        }
+        return count;
+    }
+}
