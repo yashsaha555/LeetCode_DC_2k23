@@ -1,0 +1,32 @@
+class Solution {
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        int sgas=0,scost=0;
+        for(int i:gas) sgas+=i;
+        for(int i:cost) scost+=i;
+
+        /* If sum of cost array is greater than sum of gas array then
+        complete round can't be made */
+
+        if(scost>sgas) return -1;
+        int diff[]=new int[gas.length];
+        int total=0;
+        for(int i=0;i<gas.length;i++){
+            diff[i]=gas[i]-cost[i];
+        }
+        int idx=0;
+
+        /* We solve it greedily. Along the way if there is any element in the difference array
+        which makes the total=0, then we can't consider that particular starting position.   
+        Since an unique solution always exists, when we reach the end of the difference array 
+        then we can say that the current starting position is the answer */
+
+        for(int i=0;i<gas.length;i++){
+            total+=diff[i];
+            if(total<0){
+                total=0;
+                idx=i+1;
+            } 
+        }
+        return idx;
+    }
+}
