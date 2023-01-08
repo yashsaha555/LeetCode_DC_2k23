@@ -1,0 +1,31 @@
+class Solution {
+    public int maxPoints(int[][] points) {
+
+        /* If the length of array is 1 or 2 then return the length
+        of the array itself */
+
+        if(points.length==1 || points.length==2) return points.length;
+        int max=2;
+
+        /* We calculate the theta value and check for other points for which the theta becomes
+        equal */
+
+        for(int i=0;i<points.length;i++){
+            Map<Double,Integer> map=new HashMap<>();
+            for(int j=0;j<points.length;j++){
+                if(j==i) continue;
+                int dy=points[j][1]-points[i][1];
+                int dx=points[j][0]-points[i][0];
+                double theta=Math.atan((double)dy/dx);
+                map.put(theta,map.getOrDefault(theta,1)+1);
+            }
+
+            /* Store the maximum theta value */
+
+            for(double key:map.keySet()){
+                max=Math.max(max,map.get(key));
+            }
+        }
+        return max;
+    }
+}
