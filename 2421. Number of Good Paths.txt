@@ -1,0 +1,74 @@
+class Solution {
+
+    /* Concept used: Disjoint Set Union */
+
+    public int numberOfGoodPaths(int[] vals, int[][] edges) {
+
+        /* sort edges based on the maximum value of the nodes in the edge */
+        
+        Arrays.sort(edges, (o1, o2) -> Integer.compare(Math.max(vals[o1[0]], vals[o1[1]]), Math.max(vals[o2[0]], vals[o2[1]])));       
+        int n = vals.length;      
+
+        /* Initializing number of good paths to be equal to number of nodes */
+
+        int ans = n;
+        
+        /* parent array to keep track of parent of each node */
+        
+        int[] parent = new int[n];
+
+        /* count array to keep track of number of nodes in each set */
+
+        int[] count = new int[n];
+
+        /* Initializing the count of nodes in each set to be 1 */
+
+        Arrays.fill(count, 1);
+        
+        for(int i = 0; i < n; i++){
+
+            /* Initializing the parent of each node to be itself */
+
+            parent[i] = i;
+        } 
+        for(int[] edge: edges) {
+            ans+=union(edge[0], edge[1], vals,count, parent);
+        }
+        return ans;
+    } 
+    
+    
+    /* Function to merge two sets */
+
+    private int union(int x, int y, int[] vals, int[] count, int[] parent) {
+        int res=0;
+        int parx = find(x,parent);
+        int pary = find(y,parent);
+
+        /* If x and y are already in the same set the return */
+
+        if(parx == pary) return 0;
+        if(vals[parx] == vals[pary]) {
+
+            /* if the values of the parents of x and y are equal, update number of good paths */
+            
+            res= count[parx]*count[pary];
+            count[parx] += count[pary];
+            parent[pary] = parx;
+        } 
+        else if(vals[parx] > vals[pary]) {
+            parent[pary] = parx;
+        } else {
+            parent[parx] = pary;
+        }
+        return res;
+    }
+
+    /* function to find the parent of a node */
+
+    private int find(int x,int[] parent) {
+        if(parent[x] == x) return x;
+        
+        return parent[x] = find(parent[x],parent);
+    }
+}
