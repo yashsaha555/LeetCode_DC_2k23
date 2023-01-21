@@ -1,0 +1,45 @@
+class Solution {
+    List<String> list = new ArrayList<>();
+    public List<String> restoreIpAddresses(String s) {
+
+        /* The maximum digits in a valid IP address can be 12 */
+
+        if(s.length()>12) return new ArrayList<>();
+         solve(s,0,"",0);
+         return list;
+    }
+    public void solve(String s, int idx, String curr, int parts){
+
+        /* If the parts becomes 4 and the index reaches till the end of the string, then
+        remove the last "." from the current string and add in the list */
+
+        if(parts==4 && idx==s.length()){
+            list.add(curr.substring(0,curr.length()-1));
+            return;
+        }
+        if(idx+1<=s.length()){
+            solve(s,idx+1,curr+s.substring(idx,idx+1)+".",parts+1);
+        }
+
+        /* If the number of digits is two then we have to verify whether there is a leading zero 
+        or not */
+
+        if(idx+2<=s.length() && isValid(s.substring(idx,idx+2))){
+             solve(s,idx+2,curr+s.substring(idx,idx+2)+".",parts+1);
+        }
+
+        /* If the number of digits is three then we have to ensure  there is no leading zeros
+        and the number that is being formed is less than or equal to 255 */
+
+        if(idx+3<=s.length() && isValid(s.substring(idx,idx+3))){
+             solve(s,idx+3,curr+s.substring(idx,idx+3)+".",parts+1);
+        }
+    }
+
+    /* Function to verify whether the current string has any leading zeroes and whether the number
+    formed is greater than 255 */
+
+    public boolean isValid(String curr){
+        return curr.charAt(0)!='0' && Integer.parseInt(curr)<=255;
+    }
+}
