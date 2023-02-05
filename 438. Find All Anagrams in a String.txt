@@ -1,0 +1,26 @@
+class Solution {
+    public List<Integer> findAnagrams(String s, String p) {
+        ArrayList<Integer> list = new ArrayList<>();
+        if(p.length()>s.length()) return list;
+        TreeMap<Character,Integer> map1 = new TreeMap<>();
+        TreeMap<Character,Integer> map2 = new TreeMap<>();
+        for(int i=0;i<p.length();i++){
+            map1.put(p.charAt(i),map1.getOrDefault(p.charAt(i),0)+1);
+        }
+        int j=0;
+        for(int i=0;i<s.length();i++){
+            while(j-i+1<=p.length()){
+                map2.put(s.charAt(j),map2.getOrDefault(s.charAt(j),0)+1);
+                j++;
+            }
+            if(map1.equals(map2)) list.add(i);
+            if(map2.get(s.charAt(i))==1) map2.remove(s.charAt(i));
+            else
+            map2.put(s.charAt(i),map2.get(s.charAt(i))-1);
+            if(j<s.length()) 
+            map2.put(s.charAt(j),map2.getOrDefault(s.charAt(j),0)+1);
+            j++;
+        }
+        return list;
+    }
+}
