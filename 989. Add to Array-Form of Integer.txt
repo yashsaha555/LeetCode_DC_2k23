@@ -1,0 +1,16 @@
+class Solution {
+    public ListInteger addToArrayForm(int[] num, int k) {
+        ListInteger result = new ArrayList();
+        int idx = num.length-1;
+        int carry = 0;
+        while(idx=0  k0  carry0){
+            int dsum = (idx=0num[idx]0)+(k0k%100)+carry;
+            carry = dsum10;
+            result.add(dsum%10);
+            idx--;
+            k=10;
+        }
+        Collections.reverse(result);
+        return result;
+    }
+}
