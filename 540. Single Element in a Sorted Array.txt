@@ -1,0 +1,29 @@
+class Solution {
+    public int singleNonDuplicate(int[] nums) {
+
+        /* Boundary checks */
+        
+        if(nums.length==1) return nums[0];
+        if(nums[0]!=nums[1]) return nums[0];
+        if(nums[nums.length-1]!=nums[nums.length-2]) return nums[nums.length-1];
+        int low = 0, high = nums.length-1;
+        while(low<=high){
+            int mid = low+(high-low)/2;
+
+            /* If any of the adjacent elements are not equal to nums[mid] then nums[mid] is the unique 
+            element */
+
+            if(nums[mid]!=nums[mid+1] && nums[mid]!=nums[mid-1])
+            return nums[mid];
+
+            /* Two equal numbers should always start at even index and end at odd index and accordingly
+            we can shrink our search space */
+
+            if((nums[mid]==nums[mid-1] && mid%2!=0) || (nums[mid]==nums[mid+1] && mid%2==0))
+                low=mid+1;
+            else
+                high=mid-1;
+        }
+        return -1;
+    }
+}
